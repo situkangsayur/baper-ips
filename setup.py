@@ -20,6 +20,9 @@ setup(
         'Flask-WTF==0.13.1',
         'elasticsearch==2.4.0',
         'jsonmerge==1.2.1',
-        'geopy==1.11.0'
+        'geopy==1.11.0',
+        'scikit-learn==0.18.1',
+        'Flask-PyMongo==0.3.1',
+        'pymongo==2.8.1'
     ]
 )

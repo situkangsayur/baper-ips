@@ -4,7 +4,8 @@ from elasticsearch import Elasticsearch
 from flask import Flask, render_template
 from flask import g
 from flask.ext.httpauth import HTTPTokenAuth
-from flask.ext.mongoalchemy import MongoAlchemy
+from sklearn import neural_network
+from pymongo import MongoClient
 
 # Define the WSGI application object
 app = Flask(__name__, static_url_path='/')
@@ -14,11 +15,15 @@ app.config.from_object('config')
 
 # Define the database object which is imported
 # by modules and controllers
-db = MongoAlchemy(app)
+app.config["MONGO_DBNAME"] = "ips_db"
+mongo = pymongo(app, config_prefix='MONGO')
+client = MongoClient('localhost', 27017)
+dataset = client['ips_dataset']
 
+engine = neural_network
 # Define Elasticsearch
-es = Elasticsearch([app.config.get('ELASTICSEARCH_SERVER')],
-                   http_auth=(app.config.get('ELASTICSEARCH_SERVER_USERNAME'), app.config.get('ELASTICSEARCH_SERVER_PASSWORD')))
+# es = Elasticsearch([app.config.get('ELASTICSEARCH_SERVER')],
+#                    http_auth=(app.config.get('ELASTICSEARCH_SERVER_USERNAME'), app.config.get('ELASTICSEARCH_SERVER_PASSWORD')))
 
 # STOP WORD
 # from app.helper.stop_word_filter import StopWordFilter
