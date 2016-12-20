@@ -40,4 +40,10 @@ class ModelCreator:
         self.model = self.model_collection.find_one({'_id' : id()})
 
     def classify(self, data):
-        return
+        temp_model = pickle.loads(self.model)
+        result = temp_model.predict(data)
+        data = {
+            'data' : data,
+            'result' : result
+        }
+        return data

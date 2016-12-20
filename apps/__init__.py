@@ -3,8 +3,9 @@ from datetime import datetime, timedelta
 from elasticsearch import Elasticsearch
 from flask import Flask, render_template
 from flask import g
-from flask.ext.httpauth import HTTPTokenAuth
 from sklearn import neural_network
+from flask.ext.httpauth import HTTPTokenAuth
+from flask.ext.mongoalchemy import MongoAlchemy
 from pymongo import MongoClient
 
 # Define the WSGI application object
@@ -15,8 +16,9 @@ app.config.from_object('config')
 
 # Define the database object which is imported
 # by modules and controllers
+db = MongoAlchemy(app)
 app.config["MONGO_DBNAME"] = "ips_db"
-mongo = pymongo(app, config_prefix='MONGO')
+# mongo = pymongo(app, config_prefix='MONGO')
 client = MongoClient('localhost', 27017)
 dataset = client['ips_dataset']
 

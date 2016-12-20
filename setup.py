@@ -24,5 +24,6 @@ setup(
         'scikit-learn==0.18.1',
         'Flask-PyMongo==0.3.1',
         'pymongo==2.8.1'
+        # 'numpy==2.7.13'
     ]
 )
