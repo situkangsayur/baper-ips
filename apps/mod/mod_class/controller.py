@@ -1,18 +1,38 @@
-from flask import Blueprint, render_template, jsonify
+from flask import jsonify
+from flask.blueprints import Blueprint
+from flask.globals import request
+
 from apps import auth
+from apps.model.model_creator import ModelCreator
+from apps.model.normalization import Normalization
 
 # Define the blueprint
-mod_home = Blueprint('classify', __name__, url_prefix='/')
+mod_class = Blueprint('classify', __name__, url_prefix='/classify')
+COLLECTION_NAME = 'isp_dataset'
+LABEL_FIELD = 'flag'
+
+
+@mod_class.route('/prior-knowledge', methods=['GET', 'POST'])
+@auth.login_required
+def training():
+    normalizator = Normalization(COLLECTION_NAME)
+    normalizator.generate_normalizaiton()
+    return jsonify(message='normalization done :)')
 
 
 # Set the route and accepted methods
-@mod_home.route('/train', methods=['GET', 'POST'])
+@mod_class.route('/train', methods=['GET', 'POST'])
 @auth.login_required
 def training():
-    return render_template("index.html")
+    model_creator = ModelCreator(COLLECTION_NAME, LABEL_FIELD)
+    model_creator.create_model()
+    return jsonify(message='training done :)')
 
 
-@mod_home.route('/classify', methods=['GET'])
+@mod_class.route('/classify', methods=['POST'])
 @auth.login_required
 def classify():
-    return jsonify(message='Can I help you?? :)')
+    content = request.json
+    model_creator = ModelCreator(COLLECTION_NAME, LABEL_FIELD)
+    result = model_creator.classify(content)
+    return jsonify(result)

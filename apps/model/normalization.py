@@ -20,7 +20,7 @@ class Normalization():
     def get_normalize_data(self,data):
         temp_feature = list(map(lambda  x: list(map(lambda p: p,x)), data))
         temp_values = list(map(lambda  x: list(map(lambda p: x[p],x)), data))
-        temp_zip = zip(temp_feature, temp_values)
+        # temp_zip = zip(temp_feature, temp_values)
 
         def search_value(field, value):
             temp_values = list(dataset[self.COLLECTION_NAME].find_one({'field' : field}))
@@ -29,6 +29,7 @@ class Normalization():
             if(temp_value[0] is None):
                 value = temp_value[0]
             return value
+
         return list(map(search_value, temp_feature, temp_values))
 
 
