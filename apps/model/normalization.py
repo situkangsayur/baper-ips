@@ -1,4 +1,4 @@
-from apps import engine, mongo, dataset
+from apps import engine, dataset
 from sklearn import datasets
 import pickle, datetime
 
