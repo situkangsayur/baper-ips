@@ -22,21 +22,29 @@ class Normalization():
     def get_normalize_data(self, data):
 
         temp_feature = list(map(lambda x: list(map(lambda p: p, x)), data))
-        temp_values = list(map(lambda x: list(map(lambda p: x[p], x)), data))
+        # temp_values = list(map(lambda  x: list(map(lambda p: x[p],x)), data))
         # temp_zip = zip(temp_feature, temp_values)
-        print('data : ')
-        print(list(temp_feature))
-        print(list(temp_values))
+        # print('data : ')
+        # print(list(temp_feature))
+        # print(list(temp_values))
+        print('------------------=-=-=-=')
 
-        def search_value(field, value):
-            temp_values = list(dataset[self.COLLECTION_NAME].find_one({'field': field}, {'_id': 0}))
-            temp_value = filter(lambda x: x.value == value, temp_values.values)
-            value = 0
-            if (temp_value[0] is None):
-                value = temp_value[0]
-            return value
+        for temp in temp_feature:
+            print(temp)
+        print('*************************')
 
-        return list(map(search_value, temp_feature, temp_values))
+        def search_value(temp):
+            print('data : ' + data)
+            for field in temp_feature:
+                temp_values = list(dataset[self.COLLECTION_NAME].find_one({'field': field}, {'_id': 0}))
+                temp_value = filter(lambda x: x['value'] == temp[field], temp_values['values'])
+                return temp_value['norm']
+                # value = 0
+                # if(temp_value[0] is None):
+                #     value = temp_value[0]
+                # return value
+
+        return list(map(search_value, data))
 
     def generate_normalizaiton(self):
         self.load_dataset()
