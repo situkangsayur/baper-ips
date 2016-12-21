@@ -20,7 +20,7 @@ db = MongoAlchemy(app)
 app.config["MONGO_DBNAME"] = "ips_db"
 # mongo = pymongo(app, config_prefix='MONGO')
 client = MongoClient('localhost', 27017)
-dataset = client['ips_dataset']
+dataset = client['ips_db']
 
 engine = neural_network
 # Define Elasticsearch
@@ -37,7 +37,7 @@ auth = HTTPTokenAuth(scheme='Token')
 
 @auth.verify_token
 def verify_token(token):
-    from apps.model.token import Token
+    from app.model.token import Token
     data = Token.query.filter({'token': token}).first()
 
     if data:
@@ -55,11 +55,11 @@ def not_found(error):
 
 
 # Import a module / component using its blueprint handler variable (mod_auth)
-from apps.mod.mod_home.controller import mod_home as home_module
-from apps.mod.mod_auth.controller import mod_auth as auth_module
-from apps.mod.mod_class.controller import mod_class as class_module
+from app.mod.mod_home.controller import mod_home as home_module
+from app.mod.mod_auth.controller import mod_auth as auth_module
+from app.mod.mod_class.controller import mod_class as ml_module
 
 # Register blueprint(s)
 app.register_blueprint(home_module)
 app.register_blueprint(auth_module)
-app.register_blueprint(class_module)
+app.register_blueprint(ml_module)

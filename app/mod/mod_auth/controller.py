@@ -5,9 +5,9 @@ from flask import jsonify
 from flask.blueprints import Blueprint
 from flask.globals import request
 
-from apps import db
-from apps.model.client import Client
-from apps.model.token import Token
+from app import db
+from app.model.client import Client
+from app.model.token import Token
 
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
 

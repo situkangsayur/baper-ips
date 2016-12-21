@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify
-from apps import auth
+from app import auth
 
 # Define the blueprint
 mod_home = Blueprint('home', __name__, url_prefix='/')

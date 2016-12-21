@@ -1,5 +1,5 @@
-from apps import db
-from apps.model.client import Client
+from app import db
+from app.model.client import Client
 
 
 class Token(db.Document):

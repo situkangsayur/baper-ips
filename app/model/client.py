@@ -1,4 +1,4 @@
-from apps import db
+from app import db
 
 
 class Client(db.Document):
