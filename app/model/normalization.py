@@ -11,7 +11,7 @@ class Normalization():
         self.collection = collection_ref
 
     def load_dataset(self):
-        self.dataset = dataset[self.collection].find({}, {'_id': 0}).sort(self.ID, 1)
+        self.dataset = dataset[self.collection].find({}, {'_id': 0}).sort(self.ID, -1)
 
     def drop_prior_knowledge(self):
         dataset[self.COLLECTION_NAME].drop()
@@ -19,30 +19,29 @@ class Normalization():
     def normal_value(self, value, min, max):
         return (max - value) / (max - min)
 
-    def get_normalize_data(self, data):
+    def get_normalize_data(self, data, is_label, label):
 
-        temp_feature = list(map(lambda x: list(map(lambda p: p, x)), data))
-        # temp_values = list(map(lambda  x: list(map(lambda p: x[p],x)), data))
-        # temp_zip = zip(temp_feature, temp_values)
-        # print('data : ')
-        # print(list(temp_feature))
-        # print(list(temp_values))
-        print('------------------=-=-=-=')
-
-        for temp in temp_feature:
-            print(temp)
-        print('*************************')
+        temp_feature = list(map(lambda x: x, dataset[self.collection].find_one({}, {'_id': 0})))
+        if is_label:
+            temp_feature = label
 
         def search_value(temp):
-            print('data : ' + data)
-            for field in temp_feature:
-                temp_values = list(dataset[self.COLLECTION_NAME].find_one({'field': field}, {'_id': 0}))
-                temp_value = filter(lambda x: x['value'] == temp[field], temp_values['values'])
-                return temp_value['norm']
-                # value = 0
-                # if(temp_value[0] is None):
-                #     value = temp_value[0]
-                # return value
+            print(temp)
+
+            if(is_label==False):
+                for temp_field in temp_feature:
+                    # print('field : ' + temp_field)
+                    temp_values = dataset[self.COLLECTION_NAME].find_one({'field': temp_field}, {'_id': 0})
+
+                    temp_value = list(filter(lambda x: str(x['value']) == str(temp[temp_field]), temp_values['values']))
+                    #     print(p)
+                    return temp_value[0]['norm']
+            else:
+                temp_values = dataset[self.COLLECTION_NAME].find_one({'field': temp_feature}, {'_id': 0})
+
+                temp_value = list(filter(lambda x: str(x['value']) == str(temp[temp_feature]), temp_values['values']))
+                #     print(p)
+                return temp_value[0]['norm']
 
         return list(map(search_value, data))
 

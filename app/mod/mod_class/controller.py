@@ -8,9 +8,9 @@ from app.model.normalization import Normalization
 # Define the blueprint
 mod_class = Blueprint('machine', __name__, url_prefix='/machine')
 COLLECTION_NAME = 'ips_dataset'
-LABEL_FIELD = {'Label':1, '_id' : 0}
-FEATURES_LIST = {'﻿Date': 1, 'flow start': 1, 'Durat': 1, 'Prot': 1, 'Src IP Addr': 1, 'Src Port': 1, 'Dst IP Addr': 1,
-                 'Dst Port': 1, 'Flags': 1, 'Tos': 1, 'Packets': 1, 'Bytes': 1, 'Flows': 1, '_id':0}
+LABEL_FIELD = {'label':1, '_id' : 0}
+FEATURES_LIST = {'date': 1, 'flow_start': 1, 'durat': 1, 'prot': 1, 'src_ip_addr': 1, 'src_port': 1, 'dst_ip_addr': 1,
+                 'dst_port': 1, 'flags': 1, 'tos': 1, 'packets': 1, 'bytes': 1, 'flows': 1, '_id':0}
 
 @mod_class.route('/prior-knowledge', methods=['GET', 'POST'])
 # @auth.login_required
