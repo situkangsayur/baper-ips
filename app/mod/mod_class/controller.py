@@ -26,7 +26,7 @@ def normalization():
 @mod_class.route('/train', methods=['GET', 'POST'])
 # @auth.login_required
 def training():
-    model_creator = ModelCreator(COLLECTION_NAME, FEATURES_LIST, LABEL_FIELD)
+    model_creator = ModelCreator(COLLECTION_NAME, FEATURES_LIST, LABEL_FIELD, LABEL_FIELD_NAME)
     model_creator.create_model()
     return jsonify(message='training done :)')
 
@@ -35,6 +35,6 @@ def training():
 @auth.login_required
 def classify():
     content = request.json
-    model_creator = ModelCreator(COLLECTION_NAME, LABEL_FIELD)
+    model_creator = ModelCreator(COLLECTION_NAME, LABEL_FIELD, LABEL_FIELD_NAME)
     result = model_creator.classify(content)
     return jsonify(result)
