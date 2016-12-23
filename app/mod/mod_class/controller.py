@@ -32,9 +32,8 @@ def training():
 
 
 @mod_class.route('/classification', methods=['POST'])
-@auth.login_required
 def classify():
     content = request.json
-    model_creator = ModelCreator(COLLECTION_NAME, LABEL_FIELD, LABEL_FIELD_NAME)
+    model_creator = ModelCreator(COLLECTION_NAME, FEATURES_LIST, LABEL_FIELD, LABEL_FIELD_NAME)
     result = model_creator.classify(content)
     return jsonify(result)

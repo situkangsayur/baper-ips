@@ -23,6 +23,18 @@ class Normalization():
         else:
             return (max - value) / (max - min)
 
+    def get_normalize_single_data(self, data):
+        temp_array = []
+        for temp_field in data:
+            print(temp_field)
+            temp_values = dataset[self.COLLECTION_NAME].find_one({'field': temp_field}, {'_id': 0})
+            temp_value = list(filter(lambda x: x['value'] == data[temp_field], temp_values['values']))
+            temp_array.append(temp_value[0]['norm'])
+
+        print(temp_array)
+
+        return temp_array
+
     def get_normalize_data(self, data, is_label, label):
 
         temp_feature = list(map(lambda x: x, dataset[self.collection].find_one({}, {self.field_label:0,'_id': 0})))
@@ -30,23 +42,15 @@ class Normalization():
             temp_feature = label
 
         def search_value(temp):
-            if(len(temp) == 13):
-                print(temp)
-                print(len(temp))
-            else:
-                if(is_label):
-                    print('label : ')
-                    print(temp)
-                else:
-                    print('less or more than 13')
 
             temp_array = [];
 
             if(is_label==False):
 
                 for temp_field in temp_feature:
+                    # print(temp)
                     temp_values = dataset[self.COLLECTION_NAME].find_one({'field': temp_field}, {'_id': 0})
-                    temp_value = list(filter(lambda x: str(x['value']) == str(temp[temp_field]), temp_values['values']))
+                    temp_value = list(filter(lambda x: x['value'] == temp[temp_field], temp_values['values']))
                     temp_array.append(temp_value[0]['norm'])
 
                 print(temp_array)
@@ -54,10 +58,10 @@ class Normalization():
             else:
                 temp_values = dataset[self.COLLECTION_NAME].find_one({'field': temp_feature}, {'_id': 0})
 
-                temp_value = list(filter(lambda x: str(x['value']) == str(temp[temp_feature]), temp_values['values']))
+                temp_value = list(filter(lambda x: x['value'] == temp[temp_feature], temp_values['values']))
                 #     print(p)
                 temp_array.append(temp_value[0]['id'])
-                print(temp_array)
+
                 return temp_array
 
         return list(map(search_value, data))
