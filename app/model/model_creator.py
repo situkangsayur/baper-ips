@@ -63,10 +63,11 @@ class ModelCreator:
         data_res = self.normalizator.get_normalize_single_data(data)
         result = self.classfier.predict(data_res)
 
-        # result_json = {
-        #     'data' : data,
-        #     'result' : result
-        # }
-        print("--------------")
-        print(result)
-        return "ok"
+        temp = self.normalizator.get_denormaliza_data(self.label_name, result[0])
+
+        result_json = {
+            'data' : data,
+            'result' : temp
+        }
+
+        return result_json

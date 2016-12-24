@@ -35,6 +35,12 @@ class Normalization():
 
         return temp_array
 
+    def get_denormaliza_data(self, field_name, field_value):
+        values = dataset[self.COLLECTION_NAME].find_one({'field' : field_name},{'_id':0})
+        print(values)
+        temp = [x for x in values['values'] if x['id'] == field_value]
+        return temp[0]['value']
+
     def get_normalize_data(self, data, is_label, label):
 
         temp_feature = list(map(lambda x: x, dataset[self.collection].find_one({}, {self.field_label:0,'_id': 0})))
