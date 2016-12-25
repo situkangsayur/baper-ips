@@ -2,7 +2,7 @@
 internet prevention system using scikit learning
 for Hackaton at blibli.com (internal)
 
-Referenece : 
+Reference : 
 An empirical comparison of botnet detection methods" Sebastian Garcia, Martin Grill, Honza Stiborek and Alejandro Zunino. Computers and Security Journal, Elsevier. 2014
 
 Using dataset : 
