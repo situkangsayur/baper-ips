@@ -1,5 +1,7 @@
 from app import engine, dataset
 import numpy as np
+from sklearn.model_selection import cross_val_score
+from sklearn import metrics
 from app.model.normalization import Normalization
 import pickle, datetime
 
@@ -47,6 +49,32 @@ class ModelCreator:
         model = pickle.dumps(self.classfier)
         self.data_collection = dataset[self.MODEL_COLLECTION]
         self.data_collection.insert({'model' : model, 'date': datetime.datetime.now()})
+
+    def evaluate_model(self):
+        self.classfier = engine.MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1)
+
+        self.load_features()
+        self.load_flag()
+
+        temp_list_features = list(self.features)
+        temp_list_labels = list(self.labels)
+
+        temp_features = self.normalizator.get_normalize_data(temp_list_features, False, '')
+        temp_labels = self.normalizator.get_normalize_data(temp_list_labels, True, self.label_name)
+
+        flatten = lambda l: [item for sublist in l for item in sublist]
+
+        # self.classfier.fit(temp_features, flatten(temp_labels))
+        self.scores = cross_val_score(self.classfier, temp_features, flatten(temp_labels), cv=5, scoring='f1_macro')
+        print("Accuracy: %0.2f (+/- %0.2f) \n" % (self.scores.mean(), self.scores.std() * 2))
+        print(self.scores)
+        result_json = {
+            'data': datetime.datetime.now(),
+            'mean' : self.scores.mean(),
+            'std' : self.scores.std()*2,
+            'result': ",".join(str(x) for x in self.scores)
+        }
+        return result_json
 
     def load_model(self, id):
         self.data_collection = dataset[self.MODEL_COLLECTION]

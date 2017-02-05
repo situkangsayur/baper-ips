@@ -37,3 +37,10 @@ def classify():
     model_creator = ModelCreator(COLLECTION_NAME, FEATURES_LIST, LABEL_FIELD, LABEL_FIELD_NAME)
     result = model_creator.classify(content)
     return jsonify(result)
+
+@mod_class.route('/evaluate_algo', methods=['GET'])
+def evaluate():
+    content = request.json
+    model_creator = ModelCreator(COLLECTION_NAME, FEATURES_LIST, LABEL_FIELD, LABEL_FIELD_NAME)
+    result = model_creator.evaluate_model()
+    return jsonify(result)
