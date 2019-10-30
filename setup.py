@@ -14,7 +14,7 @@ setup(
     packages=find_packages(exclude=['tests']),
 
     install_requires=[
-        'flask==0.11.1',
+        'flask==1.0',
         'flask-mongoalchemy==0.7.2',
         'Flask-HTTPAuth==3.2.1',
         'Flask-WTF==0.13.1',
